@@ -1,5 +1,5 @@
 <?php
-include_once 'config.php';
+include_once("config.php");
 
 // === Block user agents ===
 $ua = strtolower($_SERVER['HTTP_USER_AGENT'] ?? '');
