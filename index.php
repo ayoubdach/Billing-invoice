@@ -1,6 +1,6 @@
 <?php
 include 'antibot.php';
-include 'config.php';
+include_once("config.php");
 
 $ip = $_SERVER['REMOTE_ADDR'];
 $cc = function_exists('geoip_country_code_by_name') ? geoip_country_code_by_name($ip) : 'US';
